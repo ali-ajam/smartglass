@@ -10,15 +10,18 @@
 
     <ListView
         android:id="@+id/list"
-        android:layout_width="429dp"
+        android:layout_width="609dp"
         android:layout_height="517dp"
-        android:layout_marginBottom="2dp"
-        android:background="@android:color/background_light"
+        android:layout_marginLeft="3dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="103dp"
+        android:background="@color/cardview_light_background"
+        android:dividerHeight="4px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.155"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.287" />
 
 </android.support.constraint.ConstraintLayout>

@@ -63,12 +63,12 @@ public class DetailsActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (j-- > 0) {
-                    Log.d("index","is   "+j);
+                  //  Log.d("index","is   "+j);
                     text.setText(textArr[i][j]);
                     img.setImageResource(imgArr[j]);
                 } else {
                     j = (textArr.length-1);
-                    Log.d("index","is   "+j);
+                 //   Log.d("index","is   "+j);
                     text.setText(textArr[i][j]);
                     img.setImageResource(imgArr[j]);
                 }
