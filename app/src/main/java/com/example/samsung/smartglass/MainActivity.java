@@ -1,55 +1,47 @@
 package com.example.samsung.smartglass;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
 public class MainActivity extends Activity {
-    private TextView text;
-    private ImageView img;
+    private ListView list;
     private String textArr[]={"sop1","sop2","sop3","sop4"};
-    public int imgArr[]={R.drawable.img1,R.drawable.noimg,R.drawable.img2,R.drawable.noimg};
-    public int i = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button nextbtn = findViewById(R.id.next);
-        nextbtn.setText(R.string.next);
-        Button previousbtn = findViewById(R.id.pre);
-        previousbtn.setText(R.string.previous);
-        text = findViewById(R.id.text);
-        img = findViewById(R.id.imageView);
-        nextbtn.setOnClickListener(new View.OnClickListener() {
+        list = findViewById(R.id.list);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,textArr){
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = super.getView(position, convertView, parent);
+
+            TextView textView = view.findViewById(android.R.id.text1);
+
+            textView.setTextColor(Color.BLACK);
+
+            return view;
+        }};
+
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                if (i < textArr.length){
-                    text.setText(textArr[i]);
-                    img.setImageResource(imgArr[i]);
-                    i++;}
-                else {
-                    i = 0;
-                    text.setText(textArr[i]);
-                    img.setImageResource(imgArr[i]);
-                }
-            }
-        });
-        previousbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (i < 1) {
-                    text.setText(textArr[i]);
-                    img.setImageResource(imgArr[i]);
-                    i = textArr.length;
-                } else {
-                    i--;
-                    text.setText(textArr[i]);
-                    img.setImageResource(imgArr[i]);
-                }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            Intent intent = new Intent(MainActivity.this,DetailsActivity.class);
+            intent.putExtra("index",position);
+            startActivityForResult(intent,1);
             }
         });
     }}
