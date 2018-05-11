@@ -14,7 +14,8 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
     private ListView list;
-    private String textArr[]={"sop1","sop2","sop3","sop4"};
+    private String textArr[]={"How to Install a New Window","How to Install ....","How to Install ....","How to Install ...."};
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
