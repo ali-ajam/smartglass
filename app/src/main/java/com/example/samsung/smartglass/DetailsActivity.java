@@ -16,7 +16,7 @@ public class DetailsActivity extends Activity {
             {"sop2.detail1","sop2.detail2","sop2.detail3","sop2.detail4"},
             {"sop3.detail1","sop3.detail2","sop3.detail3","sop3.detail4"},
             {"sop4.detail1","sop4.detail2","sop4.detail3","sop4.detail4"}};
-    public int imgArr[]={R.drawable.img1,R.drawable.noimg,R.drawable.img2,R.drawable.noimg};
+    public int imgArr[]={R.drawable.img1,0,R.drawable.img2,R.drawable.noimg};
     public int j = 0;
     public int i;
     @Override
@@ -63,12 +63,12 @@ public class DetailsActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (j-- > 0) {
-                  //  Log.d("index","is   "+j);
+                    Log.d("index","is   "+j);
                     text.setText(textArr[i][j]);
                     img.setImageResource(imgArr[j]);
                 } else {
                     j = (textArr.length-1);
-                 //   Log.d("index","is   "+j);
+                    Log.d("index","is   "+j);
                     text.setText(textArr[i][j]);
                     img.setImageResource(imgArr[j]);
                 }
