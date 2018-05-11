@@ -30,11 +30,9 @@ public class DetailsActivity extends Activity {
             {"sop2.detail1","sop2.detail2","sop2.detail3","sop2.detail4"},
             {"sop3.detail1","sop3.detail2","sop3.detail3","sop3.detail4"},
             {"sop4.detail1","sop4.detail2","sop4.detail3","sop4.detail4"}};
-<<<<<<< HEAD
-    public int imgArr[]={R.drawable.img1,0,R.drawable.img2,R.drawable.noimg};
-=======
+
     public int imgArr[]={R.drawable.one,R.drawable.two,0,0};
->>>>>>> fa2d554272bd177b5876d2b11ee98fed009fae99
+
     public int j = 0;
     public int i;
     @Override
@@ -56,7 +54,7 @@ public class DetailsActivity extends Activity {
         textDetail = findViewById(R.id.textdetail);
         img = findViewById(R.id.imageView);
         text.setText(textArr[i][j]);
-        textDetail.setText(textArr[i][j]);
+        textDetail.setText(textDetails[i][j]);
         img.setImageResource(imgArr[j]);
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
