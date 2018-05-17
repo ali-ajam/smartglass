@@ -1,6 +1,7 @@
 package com.example.samsung.smartglass;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,17 +11,29 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.vuzix.speech.VoiceControl;
+
 
 
 public class MainActivity extends Activity {
     private ListView list;
     private String textArr[]={"How to Install a New Window","How to Install ....","How to Install ....","How to Install ...."};
-    
+    private MyVoiceControl mVC;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         list = findViewById(R.id.list);
+        mVC = new MyVoiceControl(this);
+        if (mVC != null) {
+            mVC.on();
+           /* Toast.makeText(this,"u said"+mVC,Toast.LENGTH_SHORT).show();
+            return; */
+        }
+
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,textArr){
 
@@ -45,5 +58,15 @@ public class MainActivity extends Activity {
             startActivityForResult(intent,1);
             }
         });
-    }}
+
+    }
+    public class MyVoiceControl extends VoiceControl {
+        public MyVoiceControl(Context context) {
+            super(context);
+        }
+        protected void onRecognition(String result) {
+            Toast.makeText(MainActivity.this,"Received: "+result,Toast.LENGTH_SHORT).show();}
+    }
+}
+
 
