@@ -1,13 +1,22 @@
 package com.example.samsung.smartglass;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.app.Activity;
+import android.widget.VideoView;
+
+import com.vuzix.speech.VoiceControl;
+
+
 
 public class DetailsActivity extends Activity {
     private TextView text;
@@ -32,6 +41,7 @@ public class DetailsActivity extends Activity {
             {"sop4.detail1","sop4.detail2","sop4.detail3","sop4.detail4"}};
 
     public int imgArr[]={R.drawable.one,R.drawable.two,0,0};
+    private MyVoiceControl VC;
 
     public int j = 0;
     public int i;
@@ -39,6 +49,24 @@ public class DetailsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        VideoView videoView = findViewById(R.id.videoView);
+        String uriPath = "android.resource://" + getPackageName()+ "/" + R.raw.demo3;
+        //videoView.setVideoPath("android:resource://" + getPackageName()+ "/" + R.raw.demo2);
+        Uri uri = Uri.parse(uriPath);
+        videoView.setVideoURI(uri);
+        videoView.requestFocus();
+        videoView.start();
+
+        /*MediaController mediaController = new MediaController(this);
+        videoView.setMediaController(mediaController);
+        mediaController.setAnchorView(videoView);*/
+
+
+
+        VC = new MyVoiceControl(this);
+        if (VC != null) {
+            VC.on();
+        }
 
         Bundle extras = getIntent().getExtras();
 
@@ -97,4 +125,25 @@ public class DetailsActivity extends Activity {
                 }
             }
         });
-    }}
+    }
+    public class MyVoiceControl extends VoiceControl {
+        public MyVoiceControl(Context context) {
+            super(context);
+        }
+        protected void onRecognition(String result) {
+            if (result == "next"){
+                if (j++ < (textArr[i].length-1))
+                { text.setText(textArr[i][j]);
+                    textDetail.setText(textDetails[i][j]);
+
+                    img.setImageResource(imgArr[j]);}
+                else {
+                    j = 0;
+                    text.setText(textArr[i][j]);
+                    img.setImageResource(imgArr[j]);
+                    textDetail.setText(textDetails[i][j]);
+                }
+            }
+        }
+    }
+}

@@ -11,16 +11,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.vuzix.speech.VoiceControl;
 
 
 
 public class MainActivity extends Activity {
     private ListView list;
-    private String textArr[]={"How to Install a New Window","How to Install ....","How to Install ....","How to Install ...."};
+    private String textArr[]={"1. How to Install a New Window","How to Install ....","2. How to Install ....","3. How to Install ...."};
     private MyVoiceControl mVC;
+    private int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +29,6 @@ public class MainActivity extends Activity {
         mVC = new MyVoiceControl(this);
         if (mVC != null) {
             mVC.on();
-           /* Toast.makeText(this,"u said"+mVC,Toast.LENGTH_SHORT).show();
-            return; */
         }
 
 
@@ -60,12 +57,19 @@ public class MainActivity extends Activity {
         });
 
     }
+
     public class MyVoiceControl extends VoiceControl {
         public MyVoiceControl(Context context) {
             super(context);
         }
         protected void onRecognition(String result) {
-            Toast.makeText(MainActivity.this,"Received: "+result,Toast.LENGTH_SHORT).show();}
+            if (result == "1"){
+                        pos = 1;
+                Intent intent = new Intent(MainActivity.this,DetailsActivity.class);
+                intent.putExtra("index",pos);
+                startActivityForResult(intent,1);
+            }
+        }
     }
 }
 
