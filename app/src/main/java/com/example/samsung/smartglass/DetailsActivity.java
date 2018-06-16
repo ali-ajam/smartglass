@@ -31,31 +31,26 @@ public class DetailsActivity extends Activity {
             {"sop3.detail1","sop3.detail2","sop3.detail3","sop3.detail4"},
             {"sop4.detail1","sop4.detail2","sop4.detail3","sop4.detail4"}};
 
-    private String textDetails[][]={{"The first thing to do is to use a prybar to remove the window trim and jamb extension from around the old window. The jam extension is just a piece of wood that’s been ripped down and attached to the window jamb to bring it even with the wall.",
-            "Unscrew the window from the jamb and remove it. Take care not to break the glass while removing. Many windows will be multiple window sashes with moving tracks on the side. Those types of windows may be easier to remove one sash at a time.",
-            "With the window out of the wall, inspect the condition of the window jamb to make sure there is no structural damage. It’s not uncommon for an old window to leak, rotting out the jamb. If there is damage, you will have to replace or repair the damaged areas of the jamb before moving forward. ",
-            "The window stop is a piece of wood ripped down and placed around the exterior side of the window jamb. The function of the stop is to prevent the window from sliding out of the opening"},
+    private String textDetails[][]={{"The first thing to do is to use a prybar to remove the window trim and jamb extension from around the old window. The jam extension is just...",
+            "Unscrew the window from the jamb and remove it. Take care not to break the glass while removing. Many windows will be multiple window sashes with moving tracks on the side...",
+            "With the window out of the wall, inspect the condition of the window jamb to make sure there is no structural damage. It’s not uncommon for an old window to leak, rotting out the jamb.... ",
+            "The window stop is a piece of wood ripped down and placed around the exterior side of the window jamb. The function of the stop is to prevent..."},
 
             {"sop2.detail1","sop2.detail2","sop2.detail3","sop2.detail4"},
             {"sop3.detail1","sop3.detail2","sop3.detail3","sop3.detail4"},
             {"sop4.detail1","sop4.detail2","sop4.detail3","sop4.detail4"}};
 
-    public int imgArr[]={R.drawable.one,R.drawable.two,0,0};
-    private MyVoiceControl VC;
+    public int imgArr[]={0,0,R.drawable.one,R.drawable.two};
+    public int video[]={R.raw.wildlife,R.raw.demo3,0,0,0};
 
     public int j = 0;
+    public String str = "";
     public int i;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        VideoView videoView = findViewById(R.id.videoView);
-        String uriPath = "android.resource://" + getPackageName()+ "/" + R.raw.demo3;
-        //videoView.setVideoPath("android:resource://" + getPackageName()+ "/" + R.raw.demo2);
-        Uri uri = Uri.parse(uriPath);
-        videoView.setVideoURI(uri);
-        videoView.requestFocus();
-        videoView.start();
+
 
         /*MediaController mediaController = new MediaController(this);
         videoView.setMediaController(mediaController);
@@ -63,15 +58,28 @@ public class DetailsActivity extends Activity {
 
 
 
-        VC = new MyVoiceControl(this);
-        if (VC != null) {
-            VC.on();
-        }
-
         Bundle extras = getIntent().getExtras();
 
+        if (extras.getString("string") !=null){ str = extras.getString("string");}
         if (extras !=null){ i = extras.getInt("index");}
+        VideoView videoView = findViewById(R.id.videoView);
+        String uriPath = "android.resource://" + getPackageName()+ "/" + video[i];
+        //videoView.setVideoPath("android:resource://" + getPackageName()+ "/" + R.raw.demo2);
+        Uri uri = Uri.parse(uriPath);
+        videoView.setVideoURI(uri);
+        videoView.requestFocus();
+        switch (i){
+            case 0: videoView.setVisibility(videoView.VISIBLE);
+                break;
+            case 1: videoView.setVisibility(videoView.VISIBLE);
+                break;
+            case 2: videoView.setVisibility(videoView.INVISIBLE);
+                break;
+            case 3: videoView.setVisibility(videoView.INVISIBLE);
+                break;
+        }
 
+        videoView.start();
         Button nextBtn = findViewById(R.id.next);
         nextBtn.setText(R.string.next);
         Button homeBtn = findViewById(R.id.home);
@@ -83,8 +91,38 @@ public class DetailsActivity extends Activity {
         img = findViewById(R.id.imageView);
         text.setText(textArr[i][j]);
         textDetail.setText(textDetails[i][j]);
-        img.setImageResource(imgArr[j]);
-        nextBtn.setOnClickListener(new View.OnClickListener() {
+        img.setImageResource(imgArr[i]);
+        Log.d("TAG", "from detail   "+str);
+        if (str.equals("next")){
+            Log.d("TAG", "out  "+str);
+            Log.d("TAG", "out  "+i);
+            Log.d("TAG", "out  "+j++);
+            Log.d("TAG", "out  "+(textArr[i].length-1));
+            if (++j < (textArr[i].length-1))
+            { text.setText(textArr[i][j]);
+                Log.d("TAG", "in  "+str);
+                Log.d("TAG", "in  "+str);
+                Log.d("TAG", "in  "+i);
+                Log.d("TAG", "in  "+j++);
+                textDetail.setText(textDetails[i][j]);
+
+                img.setImageResource(imgArr[i]);}
+            else {
+                Log.d("TAG", "else  "+str);
+                j = 0;
+                text.setText(textArr[i][j]);
+                img.setImageResource(imgArr[i]);
+                textDetail.setText(textDetails[i][j]);
+            }
+        }
+        if (str.equals("home")){
+            Log.d("TAG",str);
+            Intent intent = new Intent(DetailsActivity.this,MainActivity.class);
+            startActivityForResult(intent,1);
+        }
+
+
+       nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (j++ < (textArr[i].length-1))
@@ -125,25 +163,8 @@ public class DetailsActivity extends Activity {
                 }
             }
         });
-    }
-    public class MyVoiceControl extends VoiceControl {
-        public MyVoiceControl(Context context) {
-            super(context);
-        }
-        protected void onRecognition(String result) {
-            if (result == "next"){
-                if (j++ < (textArr[i].length-1))
-                { text.setText(textArr[i][j]);
-                    textDetail.setText(textDetails[i][j]);
 
-                    img.setImageResource(imgArr[j]);}
-                else {
-                    j = 0;
-                    text.setText(textArr[i][j]);
-                    img.setImageResource(imgArr[j]);
-                    textDetail.setText(textDetails[i][j]);
-                }
-            }
-        }
     }
-}
+
+
+        }
